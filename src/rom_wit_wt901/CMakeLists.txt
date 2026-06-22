@@ -25,12 +25,23 @@ if(BUILD_TESTING)
   ament_lint_auto_find_test_dependencies()
 endif()
 
-add_executable(imu src/rom_wt901c_ttl_imu_publisher.cpp src/serial.c src/wit_c_sdk.c)
+add_executable(rom_hwt101ct_ttl_imu_publisher src/rom_hwt101ct_ttl_imu_publisher.cpp src/serial.c src/wit_c_sdk.c)
 # add_executable(imu src/imupublisher.cpp src/serial.c src/wit_c_sdk.c)
-ament_target_dependencies(imu rclcpp std_msgs sensor_msgs geometry_msgs tf2)
+ament_target_dependencies(rom_hwt101ct_ttl_imu_publisher rclcpp std_msgs sensor_msgs geometry_msgs tf2)
+
+add_executable(rom_hwt101ct_232_imu_publisher src/rom_hwt101ct_232_imu_publisher.cpp src/serial.c src/wit_c_sdk.c)
+# add_executable(imu src/imupublisher.cpp src/serial.c src/wit_c_sdk.c)
+ament_target_dependencies(rom_hwt101ct_232_imu_publisher rclcpp std_msgs sensor_msgs geometry_msgs tf2)
+
+add_executable(rom_wt901c_ttl_imu_publisher src/rom_wt901c_ttl_imu_publisher.cpp src/serial.c src/wit_c_sdk.c)
+# add_executable(imu src/imupublisher.cpp src/serial.c src/wit_c_sdk.c)
+ament_target_dependencies(rom_wt901c_ttl_imu_publisher rclcpp std_msgs sensor_msgs geometry_msgs tf2)
+
 
 install(TARGETS 
-  imu 
+  rom_hwt101ct_ttl_imu_publisher 
+  rom_wt901c_ttl_imu_publisher
+  rom_hwt101ct_232_imu_publisher
   DESTINATION lib/${PROJECT_NAME}
 
 )
