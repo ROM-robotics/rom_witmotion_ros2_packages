@@ -1,0 +1,23 @@
+wit_wtgahrs3_ttl:
+  ros__parameters:
+    # Serial connection
+    port: /dev/ttyUSB0
+    baudrate: 9600          # 4800, 9600 (default), 19200, 38400, 57600, 115200, 230400
+    auto_scan: true         # auto-detect baud rate on startup
+
+    # Frames
+    imu_frame_id: imu_link
+    gps_frame_id: gps
+    time_ref_source: gps
+
+    # Main loop
+    loop_rate: 200.0        # Hz
+
+    # Output topics
+    imu_topic: imu/data
+    mag_topic: imu/mag
+    temperature_topic: imu/temperature
+    pressure_topic: imu/pressure
+    fix_topic: gps/fix
+    vel_topic: gps/vel
+    time_topic: gps/time_reference

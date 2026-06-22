@@ -41,6 +41,17 @@ extern "C" {
 #pragma GCC diagnostic pop
 }
 
+#ifdef ROM_DEBUG
+// ANSI colour codes used to group ROM_DEBUG console output by data category:
+//   * Position / fix      (GGA)        -> green
+//   * Velocity / motion   (RMC, VTG)   -> cyan
+//   * Satellite / status  (GSA, GSV)   -> yellow
+#define ROM_CLR_RESET "\033[0m"
+#define ROM_CLR_POS   "\033[1;32m"  // green
+#define ROM_CLR_VEL   "\033[1;36m"  // cyan
+#define ROM_CLR_SAT   "\033[1;33m"  // yellow
+#endif
+
 namespace
 {
 constexpr double kKnotsToMps = 0.514444;   // 1 knot in m/s
@@ -285,7 +296,9 @@ private:
 #ifdef ROM_DEBUG
     RCLCPP_INFO(
       get_logger(),
-      "[GGA] lat=%.7f lon=%.7f alt=%.2fm fix_quality=%d sats_used=%d hdop=%.2f",
+      ROM_CLR_POS
+      "[GGA] lat=%.7f lon=%.7f alt=%.2fm fix_quality=%d sats_used=%d hdop=%.2f"
+      ROM_CLR_RESET,
       fix.latitude, fix.longitude, fix.altitude, f.fix_quality,
       f.satellites_tracked, hdop);
 #endif
@@ -320,8 +333,10 @@ private:
 #ifdef ROM_DEBUG
     RCLCPP_INFO(
       get_logger(),
+      ROM_CLR_VEL
       "[RMC] valid=%d lat=%.7f lon=%.7f speed=%.2fkn course=%.1fdeg "
-      "date=%02d/%02d/%02d time=%02d:%02d:%02d",
+      "date=%02d/%02d/%02d time=%02d:%02d:%02d"
+      ROM_CLR_RESET,
       f.valid, minmea_tocoord(&f.latitude), minmea_tocoord(&f.longitude),
       minmea_tofloat(&f.speed), minmea_tofloat(&f.course),
       f.date.year, f.date.month, f.date.day,
@@ -346,7 +361,7 @@ private:
 
 #ifdef ROM_DEBUG
     RCLCPP_INFO(
-      get_logger(), "[VTG] track=%.1fdeg speed=%.2fkm/h",
+      get_logger(), ROM_CLR_VEL "[VTG] track=%.1fdeg speed=%.2fkm/h" ROM_CLR_RESET,
       minmea_tofloat(&f.true_track_degrees), minmea_tofloat(&f.speed_kph));
 #endif
   }
@@ -373,8 +388,10 @@ private:
 #ifdef ROM_DEBUG
     RCLCPP_INFO(
       get_logger(),
+      ROM_CLR_SAT
       "[GSA] fix_type=%d pdop=%.2f hdop=%.2f vdop=%.2f sats_used=%d "
-      "sats_visible=%d",
+      "sats_visible=%d"
+      ROM_CLR_RESET,
       f.fix_type, status.pdop, status.hdop, status.vdop,
       status.satellites_used, status.satellites_visible);
 #endif
@@ -413,7 +430,8 @@ private:
 
 #ifdef ROM_DEBUG
     RCLCPP_INFO(
-      get_logger(), "[GSV] msg %d/%d total_sats=%d (accumulated=%zu)",
+      get_logger(),
+      ROM_CLR_SAT "[GSV] msg %d/%d total_sats=%d (accumulated=%zu)" ROM_CLR_RESET,
       f.msg_nr, f.total_msgs, f.total_sats, sat_accum_.size());
 #endif
   }
