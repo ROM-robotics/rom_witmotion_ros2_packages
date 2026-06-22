@@ -103,7 +103,7 @@ int main(int argc, char *argv[])
     AutoScanSensor(deviceName);
 
     // Publishers
-    imu_pub_ = node->create_publisher<sensor_msgs::msg::Imu>("imu/out", 10); // imu/wit/out
+    imu_pub_ = node->create_publisher<sensor_msgs::msg::Imu>("wit_motion_imu/out", 10); // imu/wit/out
 
     rclcpp::Rate rate(20.0); // 50 Hz main loop
 
